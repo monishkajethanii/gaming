@@ -53,7 +53,7 @@ export default function Login() {
         <span className="">Sign in with Google</span>
       </button>
 
-      <div className="relative mt-4 text-xl text-blue-400">
+      <div className="relative mt-4 text-lg text-blue-400">
         <Link href="/SignUp">New User? Click here</Link>
       </div>
     </div>
