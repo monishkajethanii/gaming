@@ -9,11 +9,16 @@ import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 export default function Login() {
   const { data: session } = useSession();
 
-  useEffect(() => {
-    if (session) {
-      window.location.href = "/Home";
+  const handleLogin = ()=>{
+    if(session)
+    {
+      window.location.href="/Home"
     }
-  }, [session]);
+    else
+    {
+      alert("Please login")
+    }
+  }
 
   return (
     <div className="h-screen bg-cover bg-center flex flex-col items-center justify-center text-white">
@@ -40,7 +45,9 @@ export default function Login() {
         />
       </div>
       <div className="text-center relative w-[200px] pl-8">
-        <button title="Shoot" className="relative py-2 px-4 mb-2 flex items-center justify-center gap-2 rounded-full w-[150px] bg-red-800 text-white">
+        <button title="Shoot" className="relative py-2 px-4 mb-2 flex items-center justify-center gap-2 rounded-full w-[150px] bg-red-800 text-white"
+        onClick={handleLogin}
+        >
           Shoot
           <FontAwesomeIcon icon={faCrosshairs} className="text-white h-[30px]" />
         </button>

@@ -3,7 +3,12 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCrosshairs } from "@fortawesome/free-solid-svg-icons";
+import { faGlasses } from "@fortawesome/free-solid-svg-icons";
 import { useSession, signIn } from "next-auth/react";
+import {
+  faCheckCircle,
+  faTimesCircle,
+} from "@fortawesome/free-solid-svg-icons";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 
 export default function SignUp() {
@@ -12,21 +17,73 @@ export default function SignUp() {
   const [pass, setPass] = useState("");
   const [cpass, setCpass] = useState("");
 
-  const handleSubmit = () =>{
-    console.log(username,pass,cpass)
-    setUsername("")
-    setPass("")
-    setCpass("")
-    setTimeout(()=>{
-      window.location.href = "/Login";
-    },3000)
-  }
+  const [rules, setRules] = useState({
+    length: false,
+    letters: false,
+    number: false,
+    symbol: false,
+  });
+
+  const validateUsername = (value) => {
+    setUsername(value);
+    setRules({
+      length: value.length >= 8,
+      letters: value.replace(/[^a-zA-Z]/g, "").length >= 6,
+      number: /\d/.test(value),
+      symbol: /[!@#$%^&*(),.?":{}|<>]/.test(value),
+    });
+  };
+  const handleSubmit = () => {
+    if (pass != cpass) {
+      setPass("");
+      setCpass("");
+      const password = document.getElementById("pass");
+      if (username && password) {
+        password.focus();
+        password.classList.add("vibrate");
+      }
+    } else if (username != "" && pass != "" && cpass != "") {
+      console.log(username, pass, cpass);
+      setTimeout(() => {
+        window.location.href = "/Login";
+      }, 3000);
+    } else {
+      const username = document.getElementById("username");
+      if (username) {
+        username.focus();
+        username.classList.add("vibrate");
+      }
+      const password = document.getElementById("pass");
+      if (username && password) {
+        username.focus();
+        password.classList.add("vibrate");
+      }
+      const cpassword = document.getElementById("cpass");
+      if (username && password && cpassword) {
+        username.focus();
+        cpassword.classList.add("vibrate");
+      }
+    }
+    setUsername("");
+    setPass("");
+    setCpass("");
+  };
   if (session) {
-    alert("user registered");
+    // alert("user registered");
     const email = session.user.email;
     const name = session.user.name;
     console.log(email, name);
   }
+  const [isPassVisible, setIsPassVisible] = useState(false);
+  const [isCpassVisible, setIsCpassVisible] = useState(false);
+  const togglePasswordVisibility = (field) => {
+    if (field === "password") {
+      setIsPassVisible(!isPassVisible);
+    } else if (field === "cpassword") {
+      setIsCpassVisible(!isCpassVisible);
+    }
+  };
+
   return (
     <>
       <div className="h-screen bg-cover bg-center flex flex-col items-center justify-center text-white">
@@ -50,34 +107,90 @@ export default function SignUp() {
         <div className="mb-4 relative">
           <input
             type="text"
+            id="username"
             name="username"
             value={username}
-            onChange={(e)=>setUsername(e.target.value)}
+            onChange={(e) => validateUsername(e.target.value)}
+            onFocus={() =>
+              (document.getElementById("rules").style.display = "block")
+            }
+            onBlur={() =>
+              (document.getElementById("rules").style.display = "none")
+            }
             placeholder="create your username"
             className="w-full px-4 py-2 rounded-md bg-red-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
             required
           />
+          <div
+            id="rules"
+            style={{ display: "none", marginTop: "10px", position: "relative" }}
+          >
+            <p className={`rule ${rules.length ? "valid" : "invalid"}`}>
+              <FontAwesomeIcon
+                icon={rules.length ? faCheckCircle : faTimesCircle}
+                className="symbol mr-4"
+                style={{ color: rules.length ? "green" : "red" }}
+              />
+              Must be at least 8 characters long
+            </p>
+            <p className={`rule ${rules.letters ? "valid" : "invalid"}`}>
+              <FontAwesomeIcon
+                icon={rules.letters ? faCheckCircle : faTimesCircle}
+                className="symbol mr-4"
+                style={{ color: rules.letters ? "green" : "red" }}
+              />
+              Must contain at least 6 letters
+            </p>
+            <p className={`rule ${rules.number ? "valid" : "invalid"}`}>
+              <FontAwesomeIcon
+                icon={rules.number ? faCheckCircle : faTimesCircle}
+                className="symbol mr-4"
+                style={{ color: rules.number ? "green" : "red" }}
+              />
+              Must contain at least 1 number
+            </p>
+            <p className={`rule ${rules.symbol ? "valid" : "invalid"}`}>
+              <FontAwesomeIcon
+                icon={rules.symbol ? faCheckCircle : faTimesCircle}
+                className="symbol mr-4"
+                style={{ color: rules.symbol ? "green" : "red" }}
+              />
+              Must contain at least 1 symbol
+            </p>
+          </div>
         </div>
-        <div className="mb-4 relative">
+        <div className="mb-4 relative flex">
           <input
-            type="password"
+            type={isPassVisible ? "text" : "password"}
             name="password"
+            id="pass"
             value={pass}
-            onChange={(e)=>setPass(e.target.value)}
+            onChange={(e) => setPass(e.target.value)}
             placeholder="create your password"
             className="w-full px-4 py-2 rounded-md bg-red-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
             required
           />
+          <FontAwesomeIcon
+            onClick={() => togglePasswordVisibility("password")}
+            icon={faGlasses}
+            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-yellow-400 cursor-pointer"
+          />
         </div>
         <div className="mb-4 relative">
           <input
-            type="password"
+            type={isCpassVisible ? "text" : "password"}
             name="password"
+            id="cpass"
             value={cpass}
-            onChange={(e)=>setCpass(e.target.value)}
+            onChange={(e) => setCpass(e.target.value)}
             placeholder="confirm your password"
             className="w-full px-4 py-2 rounded-md bg-red-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
             required
+          />
+          <FontAwesomeIcon
+            icon={faGlasses}
+            onClick={() => togglePasswordVisibility("cpassword")}
+            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-yellow-400 cursor-pointer"
           />
         </div>
         <div className="text-center relative w-[200px] pl-8">
@@ -85,7 +198,8 @@ export default function SignUp() {
             title="Shoot"
             onClick={handleSubmit}
             className="relative py-2 mb-4 px-4 flex items-center justify-center gap-2 rounded-full w-[150px] bg-red-800  text-white"
-          >Shoot
+          >
+            Shoot
             {/* <Link href="/Login">Shoot</Link> */}
             <FontAwesomeIcon
               icon={faCrosshairs}
