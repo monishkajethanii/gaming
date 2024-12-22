@@ -1,32 +1,33 @@
+/* Global styles for body */
 body {
-    background-color:black;
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
+  background-color: black;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
 }
 
-@media (min-width:640px){
-  body{
+@media (min-width: 640px) {
+  body {
     font-size: 16px;
-    background-color: black;
   }
 }
 
-@media (min-width:768px){
-  body{
+@media (min-width: 768px) {
+  body {
     font-size: 18px;
-    margin:10px;
-    background-color: black;
+    margin: 10px;
   }
 }
-@media (min-width:1240px){
-  body{
+
+@media (min-width: 1240px) {
+  body {
     font-size: 20px;
-    margin:20px;
-    background-color: black;
+    margin: 20px;
   }
 }
+
+/* Tailwind-inspired custom classes */
 .bg-black {
   background-color: #000;
 }
@@ -37,4 +38,16 @@ body {
 
 .shadow-lg {
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Scoped styles */
+.headings {
+  color: white;
+  font-size: 24px;
+  margin-left: 30px;
+  margin-top: 20px;
+}
+
+.custom-cursor {
+  cursor: url('/tc.jpg'), auto;
 }

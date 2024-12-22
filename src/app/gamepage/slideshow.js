@@ -44,15 +44,13 @@ export default function Slideshow() {
               src={image.src}
               alt={image.alt}
               objectFit="cover"
-              width={700} // Fixed width
-              height={600} // Fixed height
+              width={700} 
+              height={600}
               className="object-center rounded-lg"
             />
           </div>
         ))}
       </div>
-
-      {/* Description and Buttons */}
       <div className="w-full sm:w-1/3 flex flex-col justify-center text-center sm:text-left p-4 mt-4 sm:mt-0">
         <Description activeImage={activeImage} />
         <div className="flex justify-center sm:justify-between items-center mt-4 gap-4">
