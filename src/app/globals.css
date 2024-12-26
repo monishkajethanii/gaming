@@ -16,7 +16,8 @@
 
 body {
   color: var(--foreground);
-  background: var(--background);
+  /* background: var(--background); */
+  background-color: black;
   font-family: Arial, Helvetica, sans-serif;
 }
 .vibrate {
@@ -29,4 +30,99 @@ body {
   50% { transform: translateX(2px); }
   75% { transform: translateX(-2px); }
   100% { transform: translateX(0); }
+}
+.card {
+  @apply relative transition-all duration-700;
+}
+
+.card img {
+  @apply  object-cover transition-all duration-500;
+}
+
+.card.animation {
+  @apply flex-[5] ;
+}
+
+.card:not(.animation) img {
+  @apply filter blur-[5px] brightness-[0.7];
+}
+
+@media (max-width: 1024px) {
+  .card {
+    /* width: 100px; */
+    @apply h-[80vmin] object-cover transition-all duration-500; 
+  }
+  .card.animation
+  {
+    /* width: 350px; */
+    /* height: 50px; */
+    @apply max-w-max;
+  }
+}
+
+@media (max-width: 768px) {
+  .card {
+    @apply h-[60vmin]; /* Adjust card height on mobile screens */
+  }
+}
+
+@media (max-width: 640px) {
+  .card {
+    @apply h-[60vmin]; /* Further adjust card height on smaller mobile screens */
+  }
+}
+
+@media (max-width: 600px) {
+  .card {
+    /* margin-left: 20px;
+    margin-right: 20px; */
+    @apply h-[100vmin]; /* Adjust height for very small screens */
+  }
+}
+#about-us {
+  padding: 50px 0;
+  background-color: #f9f9f9;
+}
+
+#about-us h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+#about-us p {
+  font-size: 1.2rem;
+  color: #555;
+}
+
+#about-us img {
+  border-radius: 8px;
+  max-width: 100%;
+  height: auto;
+}
+
+.container {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.col-md-6 {
+  flex: 0 0 48%;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .row {
+    flex-direction: column;
+  }
+
+  .col-md-6 {
+    flex: 0 0 100%;
+    margin-bottom: 20px;
+  }
 }

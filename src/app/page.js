@@ -1,9 +1,11 @@
 import React from 'react'
-import Link from 'next/link'
+import InScroll from './InScroll'
+import Slideshow from './Slideshow'
+
 export default function page() {
   return (
     <div>
-      <Link href="/Home">Home</Link>
+      <Slideshow/>
     </div>
   )
 }

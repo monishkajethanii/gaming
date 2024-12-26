@@ -12,6 +12,7 @@ export default {
         foreground: "var(--foreground)",
       },  fontFamily: {
         rocksalt: ['Rock Salt', 'cursive'],
+        satisfy: ['"Satisfy"', 'cursive'],
       },
     },
   },
