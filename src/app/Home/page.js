@@ -1,8 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import Nav from '../Nav'
-import InScroll from '../InScroll'
+import Nav from "../Nav";
+import InScroll from "../InScroll";
 import { Creepster } from "next/font/google";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTelegram } from "@fortawesome/free-brands-svg-icons";
@@ -20,22 +20,31 @@ import BirthdayBanner from "../Banner";
 
 const satisfy = Satisfy({ subsets: ["latin"], weight: "400" });
 const patuaOne = Patua_One({ subsets: ["latin"], weight: "400" });
-export default function page() {
-  const [isSplash, setIsSplash] = useState(true);
+
+export default function Page() {
+  const [isSplash, setIsSplash] = useState(false); 
   const [fadeOut, setFadeOut] = useState(false);
-  const [isCenter, setIsCenter] = useState(false);
 
   useEffect(() => {
-    const timeout1 = setTimeout(() => setFadeOut(true), 2500);
-    const timeout2 = setTimeout(() => setIsSplash(false), 3000);
-    return () => {
-      clearTimeout(timeout1);
-      clearTimeout(timeout2);
-    };
+    const hasSeen = sessionStorage.getItem("hasSeen");
+
+    if (!hasSeen) {
+      setIsSplash(true); 
+      const timeout1 = setTimeout(() => setFadeOut(true), 2500);
+      const timeout2 = setTimeout(() => {
+        setIsSplash(false);
+        sessionStorage.setItem("hasSeen", "true"); 
+      }, 3000);
+
+      return () => {
+        clearTimeout(timeout1);
+        clearTimeout(timeout2);
+      };
+    }
   }, []);
+
   const { data: session } = useSession();
 
-  // if (session) {
   if (isSplash) {
     return (
       <div
@@ -47,12 +56,9 @@ export default function page() {
       </div>
     );
   }
+
   return (
     <>
-      {/* <div>
-          <h1>Welcome, {session.user.name}</h1>
-          <button onClick={() => signOut()}>Sign Out</button>
-        </div> */}
       <video
         autoPlay
         muted
@@ -61,7 +67,7 @@ export default function page() {
       >
         <source src="/homebg.mp4" type="video/mp4" />
       </video>
-        <Nav/>
+      <Nav />
 
       <div className="relative flex flex-col items-center h-[500px] justify-center text-center mt-20 text-white px-4">
         <h1
@@ -81,14 +87,10 @@ export default function page() {
           Start Exploring
         </Link>
       </div>
-      <InScroll/>
-      <BirthdayBanner/>
-      <Intro/>
-      <AboutUs/>
+      <InScroll />
+      <BirthdayBanner />
+      <Intro />
+      <AboutUs />
     </>
   );
-  // }
-  // if (!session) {
-  // return <Link href="/Login">Login</Link>;
-  // }
 }

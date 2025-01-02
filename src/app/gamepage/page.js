@@ -1,10 +1,12 @@
 import Slideshow from "./slideshow";
 import Card from "./cards";
-import styles from './styles.module.css';
+import './styles.module.css';
+import Nav from "../Nav";
 export default function Page() {
   return (
-    <div className="bg-black ml-5 mr-5 mt-5">
-      <div className="p-5 ">
+    <div className="bg-black">
+      <div className="">
+        <Nav/>
         <Slideshow />
       </div>
       <div>

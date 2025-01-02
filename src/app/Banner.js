@@ -13,9 +13,9 @@ const BirthdayBanner = () => {
   };
 
   return (
-    <div className="bg-black mt-10 text-white p-6 rounded-lg shadow-lg flex flex-col items-center justify-center">
-      <h2 className="text-4xl font-bold mb-4">🎉 Celebrate Your Special Day with Us! 🎉</h2>
-      <p className="mb-4 text-2xl">Add Your Birthday and Unlock Exclusive Offers!</p>
+    <div className="bg-black text-white p-6 shadow-lg flex flex-col items-center justify-center">
+      <h2 className="text-xl lg:text-4xl font-bold mb-4">🎉 Celebrate Your Special Day with Us! 🎉</h2>
+      <p className="mb-4 text-lg lg:text-2xl">Add Your Birthday and Unlock Exclusive Offers!</p>
       <input
         type="date"
         value={birthday}
@@ -24,11 +24,11 @@ const BirthdayBanner = () => {
       />
       <button
         onClick={handleSubmit}
-        className="bg-yellow-500 text-black px-4 py-2 rounded-lg font-semibold text-lg"
+        className="bg-yellow-500 text-black px-4 py-2 rounded-lg font-semibold text-sm lg:text-lg"
       >
         Add Birthday & Get Offers
       </button>
-      <p className="mt-4 text-lg">🎁 Exciting Birthday Surprises Await! 🎁</p>
+      <p className="mt-4 text-sm lg:text-lg">🎁 Exciting Birthday Surprises Await! 🎁</p>
     </div>
   );
 };

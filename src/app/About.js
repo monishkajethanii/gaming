@@ -8,8 +8,8 @@ const AboutUs = () => {
     <>
       <div className="bg-black text-white">
         {/* icons */}
-        <div className="pl-10 pt-10">
-          <h1 className="text-xl">KEEP IN TOUCH</h1>
+        <div className="pl-10">
+          <h1 className="lg:text-xl text-lg font-bold pt-4">KEEP IN TOUCH ~ Affordable Games Tamil</h1>
           <Link
             href="http://t.me/Saikiruba9927"
             target="_blank"
@@ -34,7 +34,7 @@ const AboutUs = () => {
           </Link>
         </div>
         {/* important links */}
-        <h1 className="text-xl mt-3 ml-10">
+        <h1 className="lg:text-xl text-lg mt-3 ml-10">
           Important Links <FontAwesomeIcon icon={faPaperclip} />
         </h1>
         <div>
@@ -65,15 +65,15 @@ const AboutUs = () => {
             </Link>
           </div>
           <div className="flex mt-5">
-          <FontAwesomeIcon icon={faAward} className="text-xl mr-3 mt-1 ml-10 text-yellow-400" />
+          <FontAwesomeIcon icon={faAward} className="lg:text-xl text-lg mr-3 mt-1 ml-10 text-yellow-400" />
            <h1 className="text-xl">100% Authentic Gaming Products Guaranteed</h1>
           </div>
           <div className="flex mt-1">
-          <FontAwesomeIcon icon={faGamepad} className="text-xl mr-3 mt-2 ml-10 text-purple-400" />
+          <FontAwesomeIcon icon={faGamepad} className="lg:text-xl text-lg mr-3 mt-2 ml-10 text-purple-400" />
            <h1 className="text-xl">Your Gaming Experience, Our Priority</h1>
           </div>
         </div>
-        <div className="text-justify ml-10 mr-10">
+        <div className="text-justify ml-10 mr-10 text-sm pb-5 lg:text-lg">
           <p>
             © 2024, Affordable Games Tamil. All rights reserved. Affordable
             Games Tamil, the Affordable Games Tamil logo, and other related

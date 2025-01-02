@@ -81,6 +81,7 @@ const games = [
 ];
 
 export default function CardsGrid() {
+
   const gameTypes = [...new Set(games.map((game) => game.type))];
   const [filteredGames, setFilteredGames] = useState(games);
   const [selectedType, setSelectedType] = useState("");
@@ -142,8 +143,20 @@ export default function CardsGrid() {
   };
 
   const handleAddToCart = (gameId) => {
-    alert(`Added Game ID ${gameId} to cart`);
+    const selectedGame = games.find((game) => game.id === gameId);
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];    
+    const existingGame = cart.find((game) => game.id === gameId);
+    
+    if (existingGame) {
+      existingGame.quantity += 1;
+    } else {
+      cart.push({ ...selectedGame, quantity: 1 });
+    }
+  
+    localStorage.setItem("cart", JSON.stringify(cart));
+    // alert(`${selectedGame.title} added to cart`);
   };
+  
 
   return (
     <div className="p-5">
@@ -201,73 +214,85 @@ export default function CardsGrid() {
           </button>
         </div>
       </div>
-
-      {gameTypes
-        .filter((type) => selectedType === "" || type === selectedType)
-        .map((type) => (
-          <div key={type} className="mb-8">
-            <h2 className="text-4xl font-bold text-white mb-4 flex items-center font-satisfy p-2">
-              <FontAwesomeIcon
-                icon={typeIcons[type]}
-                size="lg"
-                className="mr-2 text-red-500"
-              />
-              {type}
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {filteredGames
-                .filter((game) => game.type === type)
-                .map((card, index) => (
-                  <div
-                    key={card.id}
-                    className="max-w-sm rounded-lg overflow-hidden shadow-lg bg-white p-6 transform transition duration-300 hover:scale-105 hover:shadow-xl hover:bg-gray-100 cursor-pointer"
-                  >
-                    <div className="w-full h-48 relative mb-4">
-                      <Image
-                        src={card.image}
-                        alt={card.title}
-                        layout="fill"
-                        objectFit="contain"
-                        objectPosition="center"
-                        className="rounded-lg"
-                      />
+      
+      {filteredGames.length === 0 ? (
+        <div className="text-center text-red-500 text-xl mt-10">
+          No results found.
+        </div>
+      ) : (
+        gameTypes
+          .filter((type) => selectedType === "" || type === selectedType)
+          .map((type) => (
+            <div key={type} className="mb-8">
+              <h2 className="text-4xl font-bold text-white mb-4 flex items-center font-satisfy p-2">
+                <FontAwesomeIcon
+                  icon={typeIcons[type]}
+                  size="lg"
+                  className="mr-2 text-red-500"
+                />
+                {type}
+              </h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {filteredGames
+                  .filter((game) => game.type === type)
+                  .map((card) => (
+                    <div
+                      key={card.id}
+                      className="max-w-sm rounded-lg overflow-hidden shadow-lg bg-white p-6 transform transition duration-300 hover:scale-105 hover:shadow-xl hover:bg-gray-100 cursor-pointer"
+                    >
+                      <div className="w-full h-48 relative mb-4">
+                        <Image
+                          src={card.image}
+                          alt={card.title}
+                          layout="fill"
+                          objectFit="contain"
+                          objectPosition="center"
+                          className="rounded-lg"
+                        />
+                      </div>
+                      <h3 className="text-lg font-semibold text-gray-800 mb-2">
+                        {card.title}
+                      </h3>
+                      <p className="text-sm text-gray-600 mb-4">{card.desc}</p>
+                      <div className="mb-4">
+                        <span className="text-xl font-bold text-red-500">
+                          ${card.price}
+                        </span>
+                      </div>
+                      <div className="flex justify-between items-center space-x-2">
+                        <button
+                          onClick={() => handleViewMore(card.id)}
+                          className="flex-1 bg-gradient-to-r from-blue-500 to-blue-700 text-white py-2 px-4 rounded-xl hover:scale-105 transform transition-all duration-200"
+                        >
+                          <FontAwesomeIcon icon={faEye} className="mr-2" />
+                          View More
+                        </button>
+                        <button
+                          onClick={() => handleAddToCart(card.id)}
+                          className="flex-1 bg-gradient-to-r from-red-500 to-red-700 text-white py-2 px-4 rounded-xl hover:scale-105 transform transition-all duration-200"
+                        >
+                          <FontAwesomeIcon
+                            icon={faShoppingCart}
+                            className="mr-2"
+                          />
+                          Add to Cart
+                        </button>
+                      </div>
+                      
                     </div>
-                    <h3 className="text-lg font-semibold text-gray-800 mb-2">
-                      {card.title}
-                    </h3>
-                    <p className="text-sm text-gray-600 mb-4">{card.desc}</p>
-                    <div className="mb-4">
-                      <span className="text-xl font-bold text-red-500">
-                        ${card.price}
-                      </span>
-                    </div>
-                    <div className="flex justify-between items-center space-x-2">
-                      <button
-                        onClick={() => handleViewMore(card.id)}
-                        className="py-3 px-5 rounded-lg bg-gradient-to-r from-red-500 to-indigo-600 text-white text-sm font-semibold hover:scale-105 transform transition-all duration-300 shadow-md hover:shadow-lg"
-                      >
-                        <FontAwesomeIcon icon={faEye} className="mr-2" />
-                        View More
-                      </button>
-                      <button
-                        onClick={() => handleAddToCart(card.id)}
-                        className="py-3 px-5 rounded-lg bg-green-500 text-white text-sm font-semibold hover:scale-105 transform transition-all duration-300 shadow-md hover:shadow-lg"
-                      >
-                        <FontAwesomeIcon icon={faShoppingCart} className="mr-2" />
-                        Add to Cart
-                      </button>
-                    </div>
-                  </div>
-                ))}
-            </div>
-
-            {filteredGames.filter((game) => game.type === type).length > 3 && (
+                    
+                  ))}
+              </div>
+              {filteredGames.filter((game) => game.type === type).length > 3 && (
               <button className="text-white bg-blue-500 py-2 px-4 rounded-md mt-6 mx-auto block">
                 See More
               </button>
             )}
-          </div>
-        ))}
+            </div>
+            
+          ))
+          
+      )}
     </div>
   );
 }

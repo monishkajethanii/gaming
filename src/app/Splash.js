@@ -12,9 +12,9 @@ const Splash = () => {
   if (!isVisible) return null;
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black ">
+    <div className="fixed inset-0 flex items-center justify-center bg-black">
       <video
-        className="w-full h-full object-cover"
+        className="w-auto h-auto object-contain lg:w-full lg:h-full lg:object-cover"
         autoPlay
         muted
         playsInline

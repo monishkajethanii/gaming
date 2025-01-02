@@ -25,13 +25,12 @@ export default function Slideshow() {
   useEffect(() => {
     const timer = setTimeout(() => {
       nextSlide();
-    }, 3000); // Change every 3 seconds
+    }, 3000); 
     return () => clearTimeout(timer);
   }, [activeImage]);
 
   return (
-    <div className="flex flex-col sm:flex-row items-center justify-center bg-black rounded-lg shadow-xl p-4 w-full">
-      {/* Image Section */}
+    <div className="flex flex-col sm:flex-row items-center justify-center bg-black rounded-lg shadow-xl w-full top-0">
       <div className="relative w-full sm:w-2/3 h-[400px] sm:h-[500px] overflow-hidden rounded-lg flex justify-center items-center">
         {images.map((image, index) => (
           <div
@@ -43,10 +42,10 @@ export default function Slideshow() {
             <Image
               src={image.src}
               alt={image.alt}
-              objectFit="cover"
-              width={700} 
-              height={600}
-              className="object-center rounded-lg"
+              layout="fill"
+              objectFit="contain"
+              objectPosition="center"
+              className="object-cover object-center rounded-lg " 
             />
           </div>
         ))}

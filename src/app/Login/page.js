@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect } from "react";
-import Link from 'next/link'
+import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCrosshairs } from "@fortawesome/free-solid-svg-icons";
 import { useSession, signIn } from "next-auth/react";
@@ -9,24 +9,33 @@ import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 export default function Login() {
   const { data: session } = useSession();
 
-  const handleLogin = ()=>{
-    if(session)
-    {
-      window.location.href="/Home"
+  const handleLogin = () => {
+    if (session) {
+      localStorage.setItem("name", session.user.name); 
+      localStorage.setItem("status", "1"); 
+      window.location.href = "/Home";
+    } else {
+      alert("Please login");
     }
-    else
-    {
-      alert("Please login")
-    }
-  }
-
+  };
   return (
     <div className="h-screen bg-cover bg-center flex flex-col items-center justify-center text-white">
-      <video autoPlay muted loop className="absolute top-0 left-0 w-full h-full object-cover">
+      <video
+        autoPlay
+        muted
+        loop
+        className="absolute top-0 left-0 w-full h-full object-cover"
+      >
         <source src="/bg.mp4" type="video/mp4" />
       </video>
       <div className="relative z-0 flex flex-col mb-10">
-        <img src="/logo.jpg" alt="logo" width={120} height={120} className="rounded-full shadow-lg" />
+        <img
+          src="/logo.jpg"
+          alt="logo"
+          width={120}
+          height={120}
+          className="rounded-full shadow-lg"
+        />
       </div>
       <div className="mb-4 relative">
         <input
@@ -45,21 +54,26 @@ export default function Login() {
         />
       </div>
       <div className="text-center relative w-[200px] pl-8">
-        <button title="Shoot" className="relative py-2 px-4 mb-2 flex items-center justify-center gap-2 rounded-full w-[150px] bg-red-800 text-white"
-        onClick={handleLogin}
-        >
+        <button
+          title="Shoot"
+          className="relative py-2 px-4 mb-2 flex items-center justify-center gap-2 rounded-full w-[150px] bg-red-800 text-white"
+          onClick={handleLogin}>
           Shoot
-          <FontAwesomeIcon icon={faCrosshairs} className="text-white h-[30px]" />
+          <FontAwesomeIcon
+            icon={faCrosshairs}
+            className="text-white h-[30px]"
+          />
         </button>
       </div>
       <div className="relative">
         <span>----------------------------------------------------</span>
       </div>
-      <button className="relative mt-4 flex items-center space-x-2 bg-red-800 text-white p-2 rounded" onClick={() => signIn("google")}>
+      <button
+        className="relative mt-4 flex items-center space-x-2 bg-red-800 text-white p-2 rounded"
+        onClick={() => signIn("google")}>
         <FontAwesomeIcon icon={faGoogle} className="text-xl" />
         <span className="">Sign in with Google</span>
       </button>
-
       <div className="relative mt-4 text-lg text-blue-400">
         <Link href="/SignUp">New User? Click here</Link>
       </div>
