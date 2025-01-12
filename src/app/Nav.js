@@ -29,11 +29,19 @@ const Nav = () => {
       window.removeEventListener("click", handleClickOutside);
     };
   }, []);
-  const handleSignOut = () => {
-    signOut();
-    localStorage.setItem("status", "0");
+  const handleSignOut = async () => {
+    if (session) {
+      if(await signOut()){
+        window.location.reload()
+      }
+
+    }
+    else {
+      localStorage.clear()
+      window.location.reload()
+    }
+    
   };
-  const status = localStorage.getItem("status");
   return (
     <>
       <nav className="bg-gradient-to-r shadow-lg p-4 relative bg-black">
@@ -54,9 +62,8 @@ const Nav = () => {
               <FontAwesomeIcon icon={faBars} className="mb-4" />
             </button>
             <div
-              className={`${
-                menuOpen ? "flex" : "hidden"
-              } lg:flex lg:flex-row flex-col lg:space-x-12 space-y-4 lg:space-y-0 lg:items-center lg:ml-auto`}
+              className={`${menuOpen ? "flex" : "hidden"
+                } lg:flex lg:flex-row flex-col lg:space-x-12 space-y-4 lg:space-y-0 lg:items-center lg:ml-auto`}
             >
               <a
                 className="text-lg fjustify-end text-right items-end hover:text-yellow-400 transition duration-300 text-white text-decoration-none"
@@ -70,7 +77,7 @@ const Nav = () => {
               </a>
               <div className="relative">
                 <button
-                  className="text-lg text-white hover:text-yellow-400 transition duration-300 text-right"
+                  className="text-right text-lg text-white hover:text-yellow-400 transition duration-300 items-end ml-24 lg:ml-0"
                   onClick={(e) => {
                     e.stopPropagation();
                     toggleDropdown();
@@ -110,32 +117,39 @@ const Nav = () => {
                 Cart <FontAwesomeIcon icon={faCartPlus} className="ml-2" />
               </a>
 
-              <a
-                href="#"
-                className="text-decoration-none text-white text-lg"
-                onClick={() => setToggle(!toggle)}
-              >
-                Welcome, {status == 1 ? session?.user?.name : "Guest"}
-                <FontAwesomeIcon icon={faUser} className="ml-3" />
+              <div className="relative text-decoration-none text-white text-lg">
+                <button
+                  className="flex items-center ml-24 lg:ml-0"
+                  onClick={() => setToggle(!toggle)}
+                >
+                  Welcome, {session?.user?.name || localStorage.getItem("name") || "Guest"}
+                  <FontAwesomeIcon icon={faUser} className="ml-3" />
+                </button>
                 {toggle && (
                   <div
-                    className="bg-white text-black p-2 rounded-md shadow-lg text-center"
-                    onClick={handleSignOut}
+                    className="bg-white text-black p-2 rounded-md shadow-lg text-center absolute top-full right-0 mt-2"
                   >
-                    <a
-                      href="/"
-                      className="block rounded-md text-decoration-none text-black"
+                    <button
+                      onClick={handleSignOut}
+                      className="block w-full text-left p-2 rounded-md hover:bg-gray-200 text-black"
                     >
-                      Sign Out{" "}
-                      <FontAwesomeIcon
-                        icon={faArrowRightFromBracket}
-                        className="ml-2"
-                      />
-                    </a>
+                      Sign Out
+                      <FontAwesomeIcon icon={faArrowRightFromBracket} className="ml-2" />
+                    </button>
                   </div>
                 )}
-              </a>
-              <div className=" rounded-2xl text-black px-2 py-2 text-right">
+              </div>
+              {localStorage.getItem("name") || session?.user.name ? (
+                <div className=" rounded-2xl text-black px-2 py-2 text-right hidden">
+                  <a
+                    className="text-lg text-right transition duration-300 text-decoration-none text-white"
+                    href="/SignUp"
+                  >
+                    Sign Up
+                    <FontAwesomeIcon icon={faForward} className="ml-5" />
+                  </a>
+                </div>
+              ) : (<div className=" rounded-2xl text-black px-2 py-2 text-right">
                 <a
                   className="text-lg text-right transition duration-300 text-decoration-none text-white"
                   href="/SignUp"
@@ -143,7 +157,7 @@ const Nav = () => {
                   Sign Up
                   <FontAwesomeIcon icon={faForward} className="ml-5" />
                 </a>
-              </div>
+              </div>)}
             </div>
           </div>
         </div>

@@ -23,6 +23,7 @@
     "react": "^19.0.0",
     "react-bootstrap": "^2.10.7",
     "react-dom": "^19.0.0",
+    "react-loading": "^2.0.3",
     "react-router-dom": "^7.0.2",
     "react-tooltip": "^5.28.0",
     "swiper": "^11.1.15"

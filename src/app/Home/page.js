@@ -3,9 +3,9 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Nav from "../Nav";
 import InScroll from "../InScroll";
-import { Creepster } from "next/font/google";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTelegram } from "@fortawesome/free-brands-svg-icons";
+// import { Creepster } from "next/font/google";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faTelegram } from "@fortawesome/free-brands-svg-icons";
 import { useSession, signOut } from "next-auth/react";
 import {
   faInstagram,

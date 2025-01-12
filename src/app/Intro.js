@@ -51,19 +51,19 @@ export default function Intro() {
               />
             </h2>
             <div className="flex gap-4 justify-center mt-2">
-              <Link href="https://www.instagram.com/anishdharnidhar_07/profilecard/?igsh=bmUzcmttbmltMTlp">
+              <Link href="https://www.instagram.com/anishdharnidhar_07/profilecard/?igsh=bmUzcmttbmltMTlp" target="_blank">
                 <FontAwesomeIcon
                   icon={faInstagram}
                   className="text-pink-500 text-3xl"
                 />
               </Link>
-              <Link href="https://github.com/Anish9320">
+              <Link href="https://github.com/Anish9320" target="_blank">
                 <FontAwesomeIcon
                   icon={faGithub}
                   className="text-white text-3xl"
                 />
               </Link>
-              <Link href="https://www.linkedin.com/in/anish-dharnidhar/">
+              <Link href="https://www.linkedin.com/in/anish-dharnidhar/" target="_blank">
                 <FontAwesomeIcon
                   icon={faLinkedin}
                   className="text-blue-700 text-3xl"
@@ -89,19 +89,19 @@ export default function Intro() {
               />
             </h2>
             <div className="flex gap-4 justify-center mt-2">
-              <Link href="https://www.instagram.com/monishkajethani/profilecard/?igsh=MTliZXV4NG95dGhzMg==">
+              <Link href="https://www.instagram.com/monishkajethani/profilecard/?igsh=MTliZXV4NG95dGhzMg==" target="_blank">
                 <FontAwesomeIcon
                   icon={faInstagram}
                   className="text-pink-500 text-3xl"
                 />
               </Link>
-              <Link href="https://github.com/monishkajethanii">
+              <Link href="https://github.com/monishkajethanii" target="_blank">
                 <FontAwesomeIcon
                   icon={faGithub}
                   className="text-white text-3xl"
                 />
               </Link>
-              <Link href="https://www.linkedin.com/in/monishka-jethani-b47080271/">
+              <Link href="https://www.linkedin.com/in/monishka-jethani-b47080271/" target="_blank">
                 <FontAwesomeIcon
                   icon={faLinkedin}
                   className="text-blue-700 text-3xl"
@@ -127,19 +127,19 @@ export default function Intro() {
               />
             </h2>
             <div className="flex gap-4 justify-center mt-2">
-              <Link href="https://www.instagram.com/rajai_vaibhav_11/profilecard/?igsh=MWp3cTJleWFyZWZldA==">
+              <Link href="https://www.instagram.com/rajai_vaibhav_11/profilecard/?igsh=MWp3cTJleWFyZWZldA==" target="_blank">
                 <FontAwesomeIcon
                   icon={faInstagram}
                   className="text-pink-500 text-3xl"
                 />
               </Link>
-              <Link href="https://github.com/VaibhavRajai">
+              <Link href="https://github.com/VaibhavRajai" target="_blank">
                 <FontAwesomeIcon
                   icon={faGithub}
                   className="text-white text-3xl"
                 />
               </Link>
-              <Link href="https://www.linkedin.com/in/vaibhav-rajai-b957a2283?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app">
+              <Link href="https://www.linkedin.com/in/vaibhav-rajai-b957a2283?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank">
                 <FontAwesomeIcon
                   icon={faLinkedin}
                   className="text-blue-700 text-3xl"
