@@ -1,5 +1,5 @@
 // src/app/api/sendTelegramMessage
-import { sendTelegramMessage } from "../../../lib/telegram"; // Adjust the import path
+import { sendTelegramMessage } from "../../telegram"; // Adjust the import path
 
 export async function POST(request) {
   const { chatId, message, botToken } = await request.json();

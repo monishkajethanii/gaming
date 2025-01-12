@@ -1,4 +1,3 @@
-// src/lib/telegram.js
 export const sendTelegramMessage = async (chatId, message, botToken) => {
     const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
     const payload = { chat_id: chatId, text: message };

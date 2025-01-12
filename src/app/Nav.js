@@ -33,6 +33,7 @@ const Nav = () => {
     signOut();
     localStorage.setItem("status", "0");
   };
+  const status = localStorage.getItem("status");
   return (
     <>
       <nav className="bg-gradient-to-r shadow-lg p-4 relative bg-black">
@@ -69,7 +70,7 @@ const Nav = () => {
               </a>
               <div className="relative">
                 <button
-                  className="text-lg text-white hover:text-yellow-400 transition duration-300"
+                  className="text-lg text-white hover:text-yellow-400 transition duration-300 text-right"
                   onClick={(e) => {
                     e.stopPropagation();
                     toggleDropdown();
@@ -81,19 +82,19 @@ const Nav = () => {
                 {dropdownOpen && (
                   <div className="absolute text-white bg-gray-700 w-40 rounded-md top-10 left-0 p-2 space-y-2 shadow-lg z-10">
                     <a
-                      href="#"
+                      href="/gamepage"
                       className="block hover:bg-yellow-400 p-2 rounded-md text-white text-decoration-none"
                     >
                       Action
                     </a>
                     <a
-                      href="#"
+                      href="/gamepage"
                       className="block hover:bg-yellow-400 p-2 rounded-md text-white text-decoration-none"
                     >
                       Simulation
                     </a>
                     <a
-                      href="#"
+                      href="/gamepage"
                       className="block hover:bg-yellow-400 p-2 rounded-md text-white text-decoration-none"
                     >
                       Others
@@ -114,7 +115,7 @@ const Nav = () => {
                 className="text-decoration-none text-white text-lg"
                 onClick={() => setToggle(!toggle)}
               >
-                Welcome, {session?.user?.name || "Guest"}
+                Welcome, {status == 1 ? session?.user?.name : "Guest"}
                 <FontAwesomeIcon icon={faUser} className="ml-3" />
                 {toggle && (
                   <div

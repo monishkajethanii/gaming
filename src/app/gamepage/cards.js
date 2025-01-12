@@ -11,8 +11,9 @@ import {
   faSortAmountUp,
   faRedo,
   faEye,
-  faSearch
+  faSearch,
 } from "@fortawesome/free-solid-svg-icons";
+import { sendTelegramMessage } from "../telegram";
 
 const games = [
   {
@@ -81,14 +82,46 @@ const games = [
 ];
 
 export default function CardsGrid() {
-
   const gameTypes = [...new Set(games.map((game) => game.type))];
   const [filteredGames, setFilteredGames] = useState(games);
   const [selectedType, setSelectedType] = useState("");
   const [sortOrder, setSortOrder] = useState("asc");
   const [filterPaid, setFilterPaid] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
+  const [open, setOpen] = useState(false);
+  const [modalData, setModalData] = useState(null);
 
+  const handleClick = (gameId) => {
+    const selectedGame = games.find((game) => game.id === gameId);
+    setModalData(selectedGame);
+    setOpen(true);
+  };
+  const saveData = () => {
+    const status = localStorage.getItem("status");
+    if (status == 0) {
+      window.location.href = "/Login";
+    } else {
+      const gameDetails = { title: modalData.title, price: modalData.price };
+      localStorage.setItem("Game Details", JSON.stringify(gameDetails));
+      const chatId = "6021078557";
+      const details = localStorage.getItem("Game Details");
+      const message = `${details}`;
+      const botToken = "7836668942:AAHTt8SPmPucNYC_G7qpm6uO3Gw96YKauTQ";
+
+      sendTelegramMessage(chatId, message, botToken)
+        .then((data) => {
+          console.log("Message sent successfully:", data);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    }
+  };
+
+  const closeModal = () => {
+    setOpen(false);
+    setModalData(null);
+  };
   const typeIcons = {
     "Action Game": faGamepad,
     "Simulation Game": faUsers,
@@ -129,7 +162,6 @@ export default function CardsGrid() {
     setFilterPaid("all");
     setFilteredGames(games);
   };
-
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
     const filtered = games.filter((game) =>
@@ -144,19 +176,18 @@ export default function CardsGrid() {
 
   const handleAddToCart = (gameId) => {
     const selectedGame = games.find((game) => game.id === gameId);
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];    
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
     const existingGame = cart.find((game) => game.id === gameId);
-    
+
     if (existingGame) {
       existingGame.quantity += 1;
     } else {
       cart.push({ ...selectedGame, quantity: 1 });
     }
-  
+
     localStorage.setItem("cart", JSON.stringify(cart));
     // alert(`${selectedGame.title} added to cart`);
   };
-  
 
   return (
     <div className="p-5">
@@ -214,7 +245,7 @@ export default function CardsGrid() {
           </button>
         </div>
       </div>
-      
+
       {filteredGames.length === 0 ? (
         <div className="text-center text-red-500 text-xl mt-10">
           No results found.
@@ -244,6 +275,7 @@ export default function CardsGrid() {
                         <Image
                           src={card.image}
                           alt={card.title}
+                          onClick={() => handleClick(card.id)}
                           layout="fill"
                           objectFit="contain"
                           objectPosition="center"
@@ -278,20 +310,40 @@ export default function CardsGrid() {
                           Add to Cart
                         </button>
                       </div>
-                      
                     </div>
-                    
                   ))}
               </div>
-              {filteredGames.filter((game) => game.type === type).length > 3 && (
-              <button className="text-white bg-blue-500 py-2 px-4 rounded-md mt-6 mx-auto block">
-                See More
-              </button>
-            )}
+              {filteredGames.filter((game) => game.type === type).length >
+                3 && (
+                <button className="text-white bg-blue-500 py-2 px-4 rounded-md mt-6 mx-auto block">
+                  See More
+                </button>
+              )}
             </div>
-            
           ))
-          
+      )}
+      {open && modalData && (
+        <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white p-8 rounded-lg shadow-xl max-w-lg w-full ml-10 mr-10">
+            <img src={modalData.image}></img>
+            <h2 className="text-2xl font-bold mb-4">{modalData.title}</h2>
+            <p>{modalData.desc}</p>
+            <div className="mt-4">
+              <button
+                onClick={closeModal}
+                className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-700"
+              >
+                Close
+              </button>
+              <button
+                onClick={saveData}
+                className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-700 ml-5"
+              >
+                Buy Now
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

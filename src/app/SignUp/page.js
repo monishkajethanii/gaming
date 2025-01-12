@@ -207,7 +207,7 @@ export default function SignUp() {
             />
           </button>
         </div>
-        <div className="relative">
+        {/* <div className="relative">
           <span>---------------------------------------------------------</span>
         </div>
         <button
@@ -221,7 +221,7 @@ export default function SignUp() {
           <Link href="/Login" className="text-blue-400 text-lg">
             Already an user? Click me{" "}
           </Link>
-        </div>
+        </div> */}
       </div>
     </>
   );

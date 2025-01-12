@@ -16,14 +16,14 @@ export default function Cart() {
 
   const checkLoggedIn = async () => {
     const status = localStorage.getItem("status");
-    
+
     if (status == "1") {
       try {
         // Sending a message using your Telegram API (or custom API endpoint)
-        const response = await fetch('/api/sendTelegramMessage', {
-          method: 'POST',
+        const response = await fetch("/api/sendTelegramMessage", {
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
             chatId: "5032156050", // Replace with your target chat ID
@@ -31,7 +31,7 @@ export default function Cart() {
             botToken: "7836668942:AAHTt8SPmPucNYC_G7qpm6uO3Gw96YKauTQ", // Replace with your bot token
           }),
         });
-        
+
         const result = await response.json();
         console.log("Message sent:", result);
 
@@ -64,7 +64,7 @@ export default function Cart() {
   return (
     <>
       <Nav />
-      <div className="p-4">
+      <div className="p-4 bg-black">
         <h1 className="text-3xl font-bold mb-6 text-yellow-100">
           Your Bag <FontAwesomeIcon icon={faBagShopping} className="pl-2" />
         </h1>
@@ -96,15 +96,19 @@ export default function Cart() {
               </div>
             ))}
             <div className="text-right mt-6">
-              <span className="text-white">----------------------------------</span>
+              <span className="text-white">
+                ----------------------------------
+              </span>
               <h2 className="text-2xl font-bold text-white">Total: ${total}</h2>
             </div>
-            <button
-              className="bg-white text-black flex items-end rounded-lg font-bold p-2 flex justify-end"
-              onClick={checkLoggedIn}
-            >
-              Proceed
-            </button>
+            <div className="text-right items-end">
+              <button
+                className="bg-white text-black flex items-end rounded-lg font-bold p-2 justify-end"
+                onClick={checkLoggedIn}
+              >
+                Proceed
+              </button>
+            </div>
           </div>
         )}
       </div>
