@@ -1,14 +1,12 @@
 "use client"
-import React, { useEffect } from 'react'
-import InScroll from './InScroll'
-import Slideshow from './Slideshow'
+import React from 'react'
+import Page from './Home/page'
 
 export default function page() {
-  useEffect(()=>{
-    window.location.href="/Home"
-  })
+
   return (
     <div>
+      <Page/>
       {/* <Slideshow/> */}
       {/* <Link href="/Home">Home</Link> */}
     </div>

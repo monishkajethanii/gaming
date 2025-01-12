@@ -40,25 +40,25 @@ const AboutUs = () => {
         <div>
           <div className="text-white flex space-x-4 ml-10">
             <Link
-              href="/home"
+              href="/Home"
               className="hover:underline text-decoration-none text-white"
             >
               Home
             </Link>
             <Link
-              href="/discover"
+              href="/gamepage"
               className="hover:underline text-decoration-none text-white"
             >
               Discover
             </Link>
             <Link
-              href="/register"
+              href="/SignUp"
               className="hover:underline text-decoration-none text-white"
             >
               Register
             </Link>
             <Link
-              href="/cart"
+              href="/Cart"
               className="hover:underline text-decoration-none text-white"
             >
               Cart

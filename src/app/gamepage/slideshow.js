@@ -59,9 +59,9 @@ export default function Slideshow() {
           >
             <FontAwesomeIcon icon={faArrowLeft} size="2x" className="text-white" />
           </button>
-          <button className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-400 transition-colors">
+          {/* <button className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-400 transition-colors">
             View More
-          </button>
+          </button> */}
           <button
             onClick={nextSlide}
             className="focus:outline-none p-2 bg-gray-800 rounded-full hover:bg-gray-600 transition-all"

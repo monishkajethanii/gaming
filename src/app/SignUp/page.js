@@ -10,12 +10,30 @@ import {
   faTimesCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
+import axios from "axios";
+
+
+const Notification = ({ message, onClose }) => (
+  <div className="fixed top-5 right-5 bg-gradient-to-r from-purple-700 to-blue-900 text-white p-4 rounded-lg shadow-lg z-50 transition-transform transform scale-100 hover:scale-105">
+    <div className="flex items-center space-x-4">
+      <span className="text-lg font-bold">{message}</span>
+      <button
+        onClick={onClose}
+        className="text-white bg-red-500 hover:bg-red-700 rounded-full px-3 py-1"
+      >
+        ✕
+      </button>
+    </div>
+  </div>
+);
 
 export default function SignUp() {
+  //for api 
   const { data: session } = useSession();
   const [username, setUsername] = useState("");
   const [pass, setPass] = useState("");
   const [cpass, setCpass] = useState("");
+  const [notification, setNotification] = useState(null);
 
   const [rules, setRules] = useState({
     length: false,
@@ -33,7 +51,7 @@ export default function SignUp() {
       symbol: /[!@#$%^&*(),.?":{}|<>]/.test(value),
     });
   };
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (pass != cpass) {
       setPass("");
       setCpass("");
@@ -43,10 +61,41 @@ export default function SignUp() {
         password.classList.add("vibrate");
       }
     } else if (username != "" && pass != "" && cpass != "") {
-      console.log(username, pass, cpass);
-      setTimeout(() => {
-        window.location.href = "/Login";
-      }, 3000);
+      //add api logic
+      const password = pass;
+      try{
+
+        const config = {
+          method: "post",
+          url: 'https://tamil-games-api.vercel.app/api/create-account',
+          headers: {
+            'Content-Type': 'application/json',
+             auth: 'ZjVGZPUtYW1hX2FuZHJvaWRfMjAyMzY0MjU='
+          },
+          data: JSON.stringify({ username, password })
+        }
+        const response = await axios(config)
+        if (response.status === 201 || response.status === 200) {
+  
+          localStorage.setItem("name", username)
+          localStorage.setItem("status", "1")
+          setNotification("Account Created!");
+          setTimeout(() => setNotification(null), 3000);
+          setTimeout(() => {
+            window.location.href = "/Home";
+          }, 3000);
+        }
+        else{
+          setNotification("Please Check username and password");
+          setTimeout(() => setNotification(null), 3000);
+        }
+      }
+      catch(error){
+        setNotification("Error! While creating Account Please retry!!");
+          setTimeout(() => setNotification(null), 3000);
+        console.log(error.response?.data || error.message)
+      }
+
     } else {
       const username = document.getElementById("username");
       if (username) {
@@ -207,16 +256,22 @@ export default function SignUp() {
             />
           </button>
         </div>
+        {notification && (
+          <Notification
+            message={notification}
+            onClose={() => setNotification(null)}
+          />
+        )}
         <div className="relative">
           <span>---------------------------------------------------------</span>
         </div>
-        <button
+        {/* <button
           className="relative mt-4 flex items-center space-x-2 bg-red-800 text-white p-2 rounded"
           onClick={() => signIn("google")}
         >
           <FontAwesomeIcon icon={faGoogle} className="text-xl" />
           <span className="">Sign Up with Google</span>
-        </button>
+        </button> */}
         <div className="relative mt-4">
           <Link href="/Login" className="text-blue-400 text-lg">
             Already an user? Click me{" "}

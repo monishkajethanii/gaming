@@ -11,9 +11,11 @@ import {
   faSortAmountUp,
   faRedo,
   faEye,
-  faSearch
+  faSearch,
+  faIndianRupee
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
+import { useSession } from "next-auth/react";
 
 const config = {
   method: 'get',
@@ -40,7 +42,7 @@ const GameSkeleton = () => (
 const Notification = ({ message, onClose }) => (
   <div className="fixed top-5 right-5 bg-gradient-to-r from-purple-700 to-blue-900 text-white p-4 rounded-lg shadow-lg z-50 transition-transform transform scale-100 hover:scale-105">
     <div className="flex items-center space-x-4">
-      <span className="text-lg font-bold">{message}</span>
+      <span className="text-lg font-bold"><a href="/Cart">{message}</a></span>
       <button
         onClick={onClose}
         className="text-white bg-red-500 hover:bg-red-700 rounded-full px-3 py-1"
@@ -52,6 +54,8 @@ const Notification = ({ message, onClose }) => (
 );
 
 export default function CardsGrid() {
+  const { data: session } = useSession();
+  const [showModal, setShowModal] = useState(false);
   const [gameTypes, setGameTypes] = useState([]);
   const [resGames, setResGames] = useState([]);
   const [filteredGames, setFilteredGames] = useState([]);
@@ -153,26 +157,27 @@ export default function CardsGrid() {
     setModalData(null);
   };
 
-  const sendTelegramMessage = async (chatId, message, botToken) => {
-    const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        chat_id: chatId,
-        text: message,
-      }),
-    });
-    return await response.json();
-  };
+  // const sendTelegramMessage = async (chatId, message, botToken) => {
+  //   const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+  //   const response = await fetch(url, {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify({
+  //       chat_id: chatId,
+  //       text: message,
+  //     }),
+  //   });
+  //   return await response.json();
+  // };
 
   const saveData = () => {
     const status = localStorage.getItem("status");
     if (status == 0) {
       window.location.href = "/Login";
     } else {
+      setShowModal(true);
       const gameDetails = { 
         title: modalData.game_title, 
         price: modalData.game_price 
@@ -180,29 +185,25 @@ export default function CardsGrid() {
       localStorage.setItem("Game Details", JSON.stringify(gameDetails));
       const chatId = "6021078557";
       const details = localStorage.getItem("Game Details");
-      const message = `${details}`;
-      const botToken = "7836668942:AAHTt8SPmPucNYC_G7qpm6uO3Gw96YKauTQ";
-      sendTelegramMessage(chatId, message, botToken)
-        .then((data) => {
-          console.log("Message sent successfully:", data);
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
+      const message = `🎮 Hello, I'm interested in purchasing the game '${modalData.game_title}' listed at ${modalData.game_price}.🤝 Please let me know the next steps for completing the purchase. Thank you! 🙏`;
+      
+      setTimeout(()=>{window.open(`https://t.me/anish9320?text=${encodeURIComponent(message)}`,'_blank')},5000)
     }
   };
 
   const handleAddToCart = (gameId) => {
-    const selectedGame = resGames.find((game) => game.game_id === gameId);
-    if (!selectedGame) return;
-    
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    const existingGame = cart.find((game) => game.game_id === gameId);
-    
-    if (existingGame) {
-      existingGame.quantity += 1;
-    } else {
-      cart.push({
+    if(localStorage.getItem("name") || session){
+
+      const selectedGame = resGames.find((game) => game.game_id === gameId);
+      if (!selectedGame) return;
+      
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      const existingGame = cart.find((game) => game.game_id === gameId);
+      
+      if (existingGame) {
+        existingGame.quantity += 1;
+      } else {
+        cart.push({
         game_id: selectedGame.game_id,
         game_title: selectedGame.game_title,
         game_desc: selectedGame.game_desc,
@@ -211,10 +212,13 @@ export default function CardsGrid() {
         quantity: 1
       });
     }
-    
     localStorage.setItem("cart", JSON.stringify(cart));
     setNotification(`"${selectedGame.game_title}" added to cart!`);
     setTimeout(() => setNotification(null), 3000);
+  }
+  else{
+    window.location.href = "/Login"
+  }
   };
 
   const visibleGameTypes = selectedType ? [selectedType] : gameTypes;
@@ -253,7 +257,7 @@ export default function CardsGrid() {
             className="border border-gray-300 rounded-lg p-3 focus:outline-none text-gray-700 bg-gray-50 transition duration-200 hover:bg-gray-100"
             value={selectedType}
             onChange={(e) => handleTypeFilter(e.target.value)}
-          >
+          > 
             <option value="">All Types</option>
             {gameTypes.map((type) => (
               <option key={type} value={type}>
@@ -382,6 +386,55 @@ export default function CardsGrid() {
           </div>
         </div>
       )}
+      {/* Custom Modal */}
+      {showModal && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+            <div className="bg-white rounded-lg max-w-md w-full p-6 relative">
+              <button
+                onClick={() => setShowModal(false)}
+                className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+              >
+                ✕
+              </button>
+              
+              <div className="text-center space-y-4">
+                <h2 className="text-2xl font-bold text-gray-800">
+                  🎉 Thank You for Your Purchase! 🎉
+                </h2>
+                
+                <p className="text-lg text-gray-600">
+                  🕒 Our seller will connect with you within 24 hours.
+                </p>
+                
+                <p className="text-lg text-gray-600">
+                  Please wait for their response.
+                </p>
+                
+                <div className="mt-4 p-4 bg-blue-50 rounded-lg">
+                  <p className="text-blue-800 font-semibold">
+                    ⚡ You will be redirected to Telegram in a few seconds...
+                  </p>
+                  <p className="text-blue-600 mt-2">
+                    📱 Please click the "Send" button after being redirected!
+                  </p>
+                </div>
+
+                <div className="mt-6 p-4 bg-yellow-50 rounded-lg border-2 border-yellow-200">
+                  <p className="text-yellow-800 font-bold mb-2">
+                    ⚠️ Important Note:
+                  </p>
+                  <p className="text-yellow-700">
+                    If Telegram doesn't open automatically:
+                  </p>
+                  <ul className="text-yellow-600 text-sm mt-2 space-y-1">
+                    <li>✅ Make sure Telegram is installed on your device</li>
+                    <li>🔓 Allow pop-ups in Google Chrome</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
     </div>
   );
 }
